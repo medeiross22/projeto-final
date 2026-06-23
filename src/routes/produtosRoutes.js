@@ -1,7 +1,7 @@
 
 const express = require('express');
 const router = express.Router();
-
+const verificarToken = require('../../middlewares/auth');
 const produtosController = require('../controllers/produtosController');
 
 router.get('/', produtosController.listarProdutos);
@@ -10,10 +10,22 @@ router.get('/com-estilo', produtosController.listarProdutosComEstilo);
 
 router.get('/:id', produtosController.buscarProdutoPorId);
 
-router.post('/', produtosController.criarProduto);
+router.post(
+    '/',
+    verificarToken,
+    produtosController.criarProduto
+);
 
-router.put('/:id', produtosController.atualizarProduto);
+router.put(
+    '/:id',
+    verificarToken,
+    produtosController.atualizarProduto
+);
 
-router.delete('/:id', produtosController.deletarProduto);
+router.delete(
+    '/:id',
+    verificarToken,
+    produtosController.deletarProduto
+);
 
 module.exports = router;

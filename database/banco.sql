@@ -1,9 +1,9 @@
 CREATE DATABASE IF NOT EXISTS mdclothing;
 USE mdclothing;
 
--- =========================
--- TABELA USUARIOS
--- =========================
+-- ==========================
+-- TABELA DE USUÁRIOS
+-- ==========================
 
 CREATE TABLE usuarios (
     id INT NOT NULL AUTO_INCREMENT,
@@ -14,9 +14,9 @@ CREATE TABLE usuarios (
     PRIMARY KEY (id)
 );
 
--- =========================
--- TABELA ESTILOS
--- =========================
+-- ==========================
+-- TABELA DE ESTILOS
+-- ==========================
 
 CREATE TABLE estilos (
     id INT NOT NULL AUTO_INCREMENT,
@@ -24,9 +24,9 @@ CREATE TABLE estilos (
     PRIMARY KEY (id)
 );
 
--- =========================
--- TABELA PRODUTOS
--- =========================
+-- ==========================
+-- TABELA DE PRODUTOS
+-- ==========================
 
 CREATE TABLE produtos (
     id INT NOT NULL AUTO_INCREMENT,
@@ -36,16 +36,19 @@ CREATE TABLE produtos (
     estilo_id INT NOT NULL,
     imagem VARCHAR(255),
     criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
     PRIMARY KEY (id),
-    FOREIGN KEY (estilo_id) REFERENCES estilos(id)
+
+    CONSTRAINT fk_produto_estilo
+        FOREIGN KEY (estilo_id)
+        REFERENCES estilos(id)
 );
 
--- =========================
--- ESTILOS
--- =========================
+-- ==========================
+-- ESTILOS PADRÃO
+-- ==========================
 
-INSERT INTO estilos (nome)
-VALUES
+INSERT INTO estilos (nome) VALUES
 ('casual'),
 ('esportivo'),
 ('formal'),
@@ -53,71 +56,58 @@ VALUES
 ('vintage'),
 ('minimalista');
 
--- =========================
--- USUARIOS
--- =========================
-
-INSERT INTO usuarios (nome, email, senha)
-VALUES
-('Henrique Prestes', 'henrique@gmail.com', '123456'),
-('Maria Silva', 'maria@gmail.com', '123456'),
-('Joao Santos', 'joao@gmail.com', '123456');
-
--- =========================
--- PRODUTOS
--- =========================
+-- ==========================
+-- PRODUTOS DE TESTE
+-- ==========================
 
 INSERT INTO produtos
 (nome, descricao, preco, estilo_id, imagem)
 VALUES
+
 (
 'Camiseta Oversized Preta',
-'Camiseta oversized em algodao premium',
+'Camiseta oversized preta em algodão premium',
 89.90,
 4,
-'camisa2.png'
+'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab'
 ),
 
 (
-'Camisa Branca',
-'Camisa para eventos formais',
-129.90,
-3,
-'camisa3.png'
+'Camiseta Casual Branca',
+'Camiseta casual branca básica',
+59.90,
+1,
+'https://images.unsplash.com/photo-1576566588028-4147f3842f27'
 ),
 
 (
-'Camisa Vermelha Arabic',
-'Confie em Deus',
-179.90,
+'Camiseta Esportiva Dry Fit',
+'Camiseta esportiva para treinos',
+79.90,
 2,
-'camisa4.png'
+'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f'
+),
+
+(
+'Camisa Social Slim',
+'Camisa social masculina slim fit',
+149.90,
+3,
+'https://images.unsplash.com/photo-1603252109303-2751441dd157'
+),
+
+(
+'Camiseta Vintage Classic',
+'Camiseta vintage inspirada nos anos 90',
+99.90,
+5,
+'https://images.unsplash.com/photo-1503341504253-dff4815485f1'
+),
+
+(
+'Camiseta Minimalista Bege',
+'Camiseta minimalista com design clean',
+69.90,
+6,
+'https://images.unsplash.com/photo-1523398002811-999ca8dec234'
 );
-
-SELECT * FROM produtos;
-SELECT
-    p.id,
-    p.nome,
-    p.descricao,
-    p.preco,
-    e.nome AS estilo,
-    p.imagem
-FROM produtos p
-INNER JOIN estilos e
-ON p.estilo_id = e.id;
-
-//aula 05
-SELECT
-    p.id,
-    p.nome,
-    p.descricao,
-    p.preco,
-    p.imagem,
-    e.nome AS estilo
-FROM produtos p
-INNER JOIN estilos e
-ON p.estilo_id = e.id;
-
-
-ALTER TABLE usuarios
-DROP COLUMN estilo_preferido;
