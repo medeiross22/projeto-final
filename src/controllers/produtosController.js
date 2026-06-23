@@ -27,6 +27,39 @@ const listarProdutos = async (req, res) => {
 
 };
 
+//aula 05 inner join
+const listarProdutosComEstilo = async (req, res) => {
+
+    try {
+
+        // Busca produtos juntamente com o nome do estilo
+        const [produtos] = await conexao.query(`
+            SELECT
+                p.id,
+                p.nome,
+                p.descricao,
+                p.preco,
+                p.imagem,
+                e.nome AS estilo
+            FROM produtos p
+            INNER JOIN estilos e
+                ON p.estilo_id = e.id
+        `);
+
+        res.status(200).json(produtos);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensagem: 'Erro ao buscar produtos com estilo'
+        });
+
+    }
+
+};
+
 
 // GET /api/produtos/:id
 const buscarProdutoPorId = async (req, res) => {
@@ -273,6 +306,7 @@ const deletarProduto = async (req, res) => {
 // Exporta as funções
 module.exports = {
     listarProdutos,
+    listarProdutosComEstilo,
     buscarProdutoPorId,
     criarProduto,
     atualizarProduto,
