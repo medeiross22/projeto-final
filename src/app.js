@@ -2,12 +2,14 @@ const express = require('express');
 
 const app = express();
 
-// Middleware para receber JSON
 app.use(express.json());
 
-// Rota de teste
+const produtosRoutes = require('./routes/produtosRoutes');
+
+app.use('/api/produtos', produtosRoutes);
+
 app.get('/', (req, res) => {
-    res.status(200).json({
+    res.json({
         mensagem: 'API MdClothing funcionando!'
     });
 });
