@@ -1,5 +1,4 @@
 const conexao = require('../../config/db');
-
 // GET /api/estilos/:id/produtos
 const listarProdutosPorEstilo = async (req, res) => {
 
@@ -32,9 +31,7 @@ const listarProdutosPorEstilo = async (req, res) => {
             WHERE p.estilo_id = ?`,
             [id]
         );
-
         res.status(200).json(produtos);
-
     } catch (error) {
 
         console.error(error);
@@ -42,11 +39,8 @@ const listarProdutosPorEstilo = async (req, res) => {
         res.status(500).json({
             mensagem: 'Erro ao buscar produtos do estilo'
         });
-
     }
-
 };
-
 module.exports = {
     listarProdutosPorEstilo
 };

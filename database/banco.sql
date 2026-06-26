@@ -1,10 +1,9 @@
 CREATE DATABASE IF NOT EXISTS mdclothing;
 USE mdclothing;
 
--- ==========================
+-- ===========================
 -- TABELA DE USUÁRIOS
--- ==========================
-
+-- ===========================
 CREATE TABLE usuarios (
     id INT NOT NULL AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
@@ -14,20 +13,18 @@ CREATE TABLE usuarios (
     PRIMARY KEY (id)
 );
 
--- ==========================
+-- ===========================
 -- TABELA DE ESTILOS
--- ==========================
-
+-- ===========================
 CREATE TABLE estilos (
     id INT NOT NULL AUTO_INCREMENT,
     nome VARCHAR(50) NOT NULL,
     PRIMARY KEY (id)
 );
 
--- ==========================
+-- ===========================
 -- TABELA DE PRODUTOS
--- ==========================
-
+-- ===========================
 CREATE TABLE produtos (
     id INT NOT NULL AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
@@ -36,78 +33,55 @@ CREATE TABLE produtos (
     estilo_id INT NOT NULL,
     imagem VARCHAR(255),
     criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
     PRIMARY KEY (id),
-
-    CONSTRAINT fk_produto_estilo
-        FOREIGN KEY (estilo_id)
-        REFERENCES estilos(id)
+    FOREIGN KEY (estilo_id) REFERENCES estilos(id)
 );
 
--- ==========================
--- ESTILOS PADRÃO
--- ==========================
-
+-- ===========================
+-- INSERT DOS ESTILOS
+-- ===========================
 INSERT INTO estilos (nome) VALUES
-('casual'),
-('esportivo'),
-('formal'),
-('streetwear'),
-('vintage'),
-('minimalista');
+('Casual'),
+('Esportivo'),
+('Formal'),
+('Streetwear'),
+('Vintage'),
+('Minimalista');
 
--- ==========================
--- PRODUTOS DE TESTE
--- ==========================
+-- ===========================
+-- INSERT DOS PRODUTOS
+-- ===========================
+INSERT INTO produtos (nome, descricao, preco, estilo_id, imagem) VALUES
+('Camiseta Básica', 'Camiseta casual de algodão', 59.90, 1, 'camiseta-basica.jpg'),
+('Moletom Esportivo', 'Moletom confortável para esportes', 149.90, 2, 'moletom-esportivo.jpg'),
+('Camisa Social', 'Camisa social slim fit', 129.90, 3, 'camisa-social.jpg'),
+('Camiseta Oversized', 'Modelo streetwear oversized', 99.90, 4, 'oversized.jpg'),
+('Jaqueta Vintage', 'Jaqueta jeans retrô', 219.90, 5, 'jaqueta-vintage.jpg'),
+('Camiseta Minimal', 'Design minimalista', 79.90, 6, 'minimalista.jpg');
 
-INSERT INTO produtos
-(nome, descricao, preco, estilo_id, imagem)
+-- ===========================
+-- INSERT DE USUÁRIO
+-- Senha: 123456
+-- (Substitua pelo hash gerado pela sua API caso necessário)
+-- ===========================
+INSERT INTO usuarios (nome, email, senha)
 VALUES
-
 (
-'Camiseta Oversized Preta',
-'Camiseta oversized preta em algodão premium',
-89.90,
-4,
-'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab'
-),
-
-(
-'Camiseta Casual Branca',
-'Camiseta casual branca básica',
-59.90,
-1,
-'https://images.unsplash.com/photo-1576566588028-4147f3842f27'
-),
-
-(
-'Camiseta Esportiva Dry Fit',
-'Camiseta esportiva para treinos',
-79.90,
-2,
-'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f'
-),
-
-(
-'Camisa Social Slim',
-'Camisa social masculina slim fit',
-149.90,
-3,
-'https://images.unsplash.com/photo-1603252109303-2751441dd157'
-),
-
-(
-'Camiseta Vintage Classic',
-'Camiseta vintage inspirada nos anos 90',
-99.90,
-5,
-'https://images.unsplash.com/photo-1503341504253-dff4815485f1'
-),
-
-(
-'Camiseta Minimalista Bege',
-'Camiseta minimalista com design clean',
-69.90,
-6,
-'https://images.unsplash.com/photo-1523398002811-999ca8dec234'
+'Henrique Prestes',
+'henrique@email.com',
+'$2b$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy'
 );
+
+-- ===========================
+-- CONSULTA COM INNER JOIN
+-- ===========================
+SELECT
+    p.id,
+    p.nome,
+    p.descricao,
+    p.preco,
+    p.imagem,
+    e.nome AS estilo
+FROM produtos p
+INNER JOIN estilos e
+ON p.estilo_id = e.id;
